@@ -1,0 +1,17 @@
+version: '2'
+services:
+  lb:
+    build:
+      context: ./env
+      dockerfile: Dockerfile-centos
+  web1:
+    build:
+      context: ./env
+      dockerfile: Dockerfile-centos
+  web2:
+    build:
+      context: ./env
+      dockerfile: Dockerfile-centos
+
+
+

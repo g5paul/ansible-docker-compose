@@ -1,0 +1,47 @@
+FROM centos:7
+
+RUN yum -y update; yum clean all
+RUN yum -y install systemd; yum clean all
+
+RUN (cd /lib/systemd/system/sysinit.target.wants/; for i in *; do [ $i == \
+systemd-tmpfiles-setup.service ] || rm -f $i; done); \
+rm -f /lib/systemd/system/multi-user.target.wants/*;\
+rm -f /etc/systemd/system/*.wants/*;\
+rm -f /lib/systemd/system/local-fs.target.wants/*; \
+rm -f /lib/systemd/system/sockets.target.wants/*udev*; \
+rm -f /lib/systemd/system/sockets.target.wants/*initctl*; \
+rm -f /lib/systemd/system/basic.target.wants/*;\
+rm -f /lib/systemd/system/anaconda.target.wants/*;
+VOLUME [ "/sys/fs/cgroup" ]
+
+RUN yum install -y openssh-server && \
+  /usr/bin/ssh-keygen -A && \
+  systemctl enable sshd.service && \
+  mkdir /var/run/sshd && \
+  useradd ansible -s /bin/bash && \
+  mkdir -p /home/ansible/.ssh/ && \
+  chmod 0700 /home/ansible/.ssh/
+
+RUN yum install -y sudo && \
+    yum install -y procps && \
+    yum install -y iproute
+
+COPY ssh_config /home/ansible/.ssh/config
+COPY ansible /home/ansible/.ssh/id_rsa
+COPY ansible.pub /home/ansible/.ssh/id_rsa.pub
+COPY ansible.pub /home/ansible/.ssh/authorized_keys
+
+RUN chmod 0600 /home/ansible/.ssh/id_rsa
+RUN chmod 0600 /home/ansible/.ssh/authorized_keys
+
+RUN chown -R ansible:ansible /home/ansible/ && \
+  echo "ansible ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
+  touch /etc/sysconfig/network
+
+RUN rm -f /usr/lib/tmpfiles.d/systemd-nologin.conf
+
+ENV container docker
+
+EXPOSE 22
+#CMD ["/sbin/init"]
+CMD ["/usr/sbin/init"]

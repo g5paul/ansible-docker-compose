@@ -1,0 +1,19 @@
+version: '2'
+services:
+  lb:
+    tmpfs:
+      - /run
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro # Needed for Ubuntu host
+  web1:
+    tmpfs:
+      - /run
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro # Needed for Ubuntu host
+  web2:
+    tmpfs:
+      - /run
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro # Needed for Ubuntu host
+
+

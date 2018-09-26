@@ -19,7 +19,7 @@
 
   tasks:
     - name: verify nginx service
-      command: service nginx status
+      command: systemctl status nginx
       changed_when: false
 
     - name: verify nginx is listening on 80
