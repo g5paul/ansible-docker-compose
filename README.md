@@ -23,8 +23,8 @@ First install Docker and Docker Compose:
 To build and run Amazon Linux containers on Ubuntu host run the following:
 ```bash
 chmod 0600 ./env/ansible*
-docker-compose -f docker-compose.yml -f docker-compose-ubuntu.yml build
-docker-compose -f docker-compose.yml -f docker-compose-ubuntu.yml up -d
+docker-compose -f docker-compose.yml -f docker-compose-host-ubuntu.yml build
+docker-compose -f docker-compose.yml -f docker-compose-host-ubuntu.yml up -d
 cat env/ssh_host_config >> ~/.ssh/config
 ssh control # do this from the repo root
 ```
@@ -32,8 +32,8 @@ ssh control # do this from the repo root
 To build and run Centos containers on Ubuntu host run the following:
 ```bash
 chmod 0600 ./env/ansible*
-docker-compose -f docker-compose.yml -f docker-compose-container-centos.yml -f docker-compose-ubuntu.yml build
-docker-compose -f docker-compose.yml -f docker-compose-container-centos.yml -f docker-compose-ubuntu.yml up -d
+docker-compose -f docker-compose.yml -f docker-compose-container-centos.yml -f docker-compose-host-ubuntu.yml build
+docker-compose -f docker-compose.yml -f docker-compose-container-centos.yml -f docker-compose-host-ubuntu.yml up -d
 cat env/ssh_host_config >> ~/.ssh/config
 ssh control # do this from the repo root
 ```
@@ -62,16 +62,16 @@ An example is included.
 
 ### How to re-build Docker images for Amazon Linux containers on Ubuntu host:
 ```bash
-docker-compose -f docker-compose.yml -f docker-compose-ubuntu.yml down
-docker-compose -f docker-compose.yml -f docker-compose-ubuntu.yml build
-docker-compose -f docker-compose.yml -f docker-compose-ubuntu.yml up -d
+docker-compose -f docker-compose.yml -f docker-compose-host-ubuntu.yml down
+docker-compose -f docker-compose.yml -f docker-compose-host-ubuntu.yml build
+docker-compose -f docker-compose.yml -f docker-compose-host-ubuntu.yml up -d
 ```
 
 ### How to re-build Docker images for Centos 7 containers on Ubuntu host:
 ```bash
-docker-compose -f docker-compose.yml -f docker-compose-container-centos.yml -f docker-compose-ubuntu.yml down
-docker-compose -f docker-compose.yml -f docker-compose-container-centos.yml -f docker-compose-ubuntu.yml build
-docker-compose -f docker-compose.yml -f docker-compose-container-centos.yml -f docker-compose-ubuntu.yml up -d
+docker-compose -f docker-compose.yml -f docker-compose-container-centos.yml -f docker-compose-host-ubuntu.yml down
+docker-compose -f docker-compose.yml -f docker-compose-container-centos.yml -f docker-compose-host-ubuntu.yml build
+docker-compose -f docker-compose.yml -f docker-compose-container-centos.yml -f docker-compose-host-ubuntu.yml up -d
 ```
 
 #### Final Note:
